@@ -13,8 +13,7 @@ jobs:
 
       - name: Upload asset to release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
-          REL_ID=362582719
-          curl -X POST             -H "Authorization: token $GH_TOKEN"             -H "Content-Type: application/x-xz"             --data-binary @android-ndk-r28c-ollvm.tar.xz             "https://uploads.github.com/repos/Matrixzat/ollvm-19/releases/${REL_ID}/assets?name=android-ndk-r28c-ollvm.tar.xz"
-          echo "Done"
+          curl -X POST             -H "Authorization: token $RELEASE_TOKEN"             -H "Content-Type: application/x-xz"             --data-binary @android-ndk-r28c-ollvm.tar.xz             "https://uploads.github.com/repos/Matrixzat/ollvm-19/releases/362582719/assets?name=android-ndk-r28c-ollvm.tar.xz"
+          echo "Upload done"
