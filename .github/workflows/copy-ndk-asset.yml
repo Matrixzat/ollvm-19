@@ -8,22 +8,13 @@ jobs:
     steps:
       - name: Download asset from Matrix1999
         run: |
-          curl -L --retry 3 --progress-bar             "https://github.com/Matrix1999/ollvm-19/releases/download/android-ndk-ollvm/android-ndk-r28c-ollvm.tar.xz"             -o android-ndk-r28c-ollvm.tar.xz
+          curl -L --retry 3 -o android-ndk-r28c-ollvm.tar.xz             "https://github.com/Matrix1999/ollvm-19/releases/download/android-ndk-ollvm/android-ndk-r28c-ollvm.tar.xz"
           ls -lh android-ndk-r28c-ollvm.tar.xz
 
-      - name: Get release ID
-        id: rel
+      - name: Upload asset to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          REL_ID=$(curl -s -H "Authorization: token $GH_TOKEN"             "https://api.github.com/repos/Matrixzat/ollvm-19/releases/tags/android-ndk-ollvm"             | python3 -c "import sys,json; r=json.load(sys.stdin); print(r["id"])")
-          echo "REL_ID=$REL_ID" >> $GITHUB_OUTPUT
-          echo "Release ID: $REL_ID"
-
-      - name: Upload asset
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          REL_ID="${{ steps.rel.outputs.REL_ID }}"
-          curl -X POST             -H "Authorization: token $GH_TOKEN"             -H "Content-Type: application/x-xz"             --data-binary @android-ndk-r28c-ollvm.tar.xz             "https://uploads.github.com/repos/Matrixzat/ollvm-19/releases/$REL_ID/assets?name=android-ndk-r28c-ollvm.tar.xz"
+          REL_ID=362582719
+          curl -X POST             -H "Authorization: token $GH_TOKEN"             -H "Content-Type: application/x-xz"             --data-binary @android-ndk-r28c-ollvm.tar.xz             "https://uploads.github.com/repos/Matrixzat/ollvm-19/releases/${REL_ID}/assets?name=android-ndk-r28c-ollvm.tar.xz"
           echo "Done"
